@@ -17,7 +17,7 @@ font_size = 13
 max_list_len = 14
 char_limit = 20
 node_block_list = []
-    # the node block list lets you omit certain nodes from you list. I put all my own nodes here.
+    # the node block list lets you omit certain nodes from your list. I put all my own nodes here.
 file_path = "/home/pi/buddylist-files/"
 
 # Define time ranges

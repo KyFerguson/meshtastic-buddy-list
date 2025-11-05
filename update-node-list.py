@@ -1,8 +1,7 @@
 import subprocess
-import re
-from tabulate import tabulate
 import json
-from datetime import datetime, timedelta
+import re
+from datetime import datetime
 
 file_path = '/home/pi/buddylist-files/'
 path_to_venv = '/home/pi/buddylist/'
@@ -19,7 +18,7 @@ def run_meshtastic_nodes():
             for line in result.stdout.split('\n'):
                 # format the command output into an array
                 # Use regex to find data between '│' symbols and strip excess spaces
-                row_data = re.findall(r"\│\s*([^│]+?)\s*(?=\│)", line)
+                row_data = re.findall(r"│\s*([^│]+?)\s*(?=│)", line)
                 if row_data:
                     parsed_data.append([item.strip() for item in row_data])
         
@@ -29,8 +28,8 @@ def run_meshtastic_nodes():
                 row.insert(4, aka_value)  # Insert the AKA value at the 4th position
 
             # Define headers for the table 
-            headers = ["N", "Long Name", "ID", "AKA", "Hardware", "Latitude", "Longitude", "Altitude", "Battery", 
-                       "Channel Util.", "Tx Air Util.", "SNR", "Hops Away", "Channel", "LastHeard", "Since"]
+            #headers = ["N", "Long Name", "ID", "AKA", "Hardware", "Latitude", "Longitude", "Altitude", "Battery",
+            #          "Channel Util.", "Tx Air Util.", "SNR", "Hops Away", "Channel", "LastHeard", "Since"]
 
             # Print the parsed data in a formatted table using tabulate, starting from the second row
             #print(tabulate(parsed_data[1:], headers=headers, tablefmt="pretty"))
@@ -91,8 +90,8 @@ def run_meshtastic_nodes():
                     if line[15] != "N/A":
                         node_list[line[2]]['Times Heard'].append(line[15])
                     else:
-                        # sometime the time is n/a. not sure why this is, but you can't let it add "n/a" to the list
-                        # or things will be messed up down the line. i used to add it to the database but with no time
+                        # sometimes the time is n/a. not sure why this is, but you can't let it add "n/a" to the list
+                        # or things will be messed up down the line. I used to add it to the database but with no time,
                         # but this means it won't show up on the board. I opted to add the current date and time.
                         # this isn't super accurate, if you update the database every X mins this time could be off by
                         # X or more. but whatever.
